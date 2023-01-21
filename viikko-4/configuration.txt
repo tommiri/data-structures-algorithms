@@ -1,0 +1,12 @@
+Configuration for Game of Life
+   x x
+ xxx xxx
+x   x   x
+x x   x x
+ xx x xx
+
+ xx x xx
+x x   x x
+x   x   x
+ xxx xxx
+   x x
