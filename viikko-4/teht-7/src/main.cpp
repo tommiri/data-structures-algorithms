@@ -2,6 +2,8 @@
 
 #include "../include/Life.h"
 
+using std::cout, std::cin;
+
 int main() //  Program to play Conway's game of Life.
 {
     Life configuration;
