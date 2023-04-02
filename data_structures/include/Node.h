@@ -1,18 +1,13 @@
 #pragma once
 
-class Node
+typedef int Node_entry;
+
+struct Node
 {
-public:
-    int data;
+    //  data members
+    Node_entry entry;
     Node *next;
-
-    Node()
-    {
-    };
-
-    Node(int d)
-    {
-        data = d;
-        next = nullptr;
-    }
+    //  constructors
+    Node();
+    Node(Node_entry item, Node *add_on = nullptr);
 };
