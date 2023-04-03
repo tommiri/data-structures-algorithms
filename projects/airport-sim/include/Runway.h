@@ -30,6 +30,7 @@ private:
     int num_takeoff_requests;     //  number of planes asking to take off
     int num_landings;             //  number of planes that have landed
     int num_takeoffs;             //  number of planes that have taken off
+    int num_crashed;              //  number of planes that crashed
     int num_land_accepted;        //  number of planes queued to land
     int num_takeoff_accepted;     //  number of planes queued to take off
     int num_land_refused;         //  number of landing planes refused
