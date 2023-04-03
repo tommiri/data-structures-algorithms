@@ -17,6 +17,7 @@ Post:  The Runway data members are initialized to record no
     num_land_refused = num_takeoff_refused = 0;
     num_land_accepted = num_takeoff_accepted = 0;
     land_wait = takeoff_wait = idle_time = 0;
+    num_crashed = 0;
 }
 
 
@@ -30,19 +31,63 @@ Uses:  class Queue.
 
 {
     Error_code result;
-    if (landing.size() < queue_limit)
+    if (current.getFuelLevel() < landing.size()) // if plane doesnt have enough fuel to wait in queue
     {
-        result = landing.append(current);
+        cout << "Fuel level critical!\n";
+        Queue temp_queue;
+        int landing_size = landing.size();
+
+        for (int i = 0; i < landing_size; i++)
+        {
+            Plane temp_plane;
+            landing.serve_and_retrieve(temp_plane); // empty landing queue
+
+            if (temp_plane.getFuelLevel() <= current.getFuelLevel())
+            {   // if first plane in landing queue has less or equal amount of fuel than current, place it back into the queue
+                landing.append(temp_plane);
+            }
+            else
+            {
+                temp_queue.append(temp_plane); // add planes to temp_queue
+            }
+        }
+
+        // if fuel level is high enough after completing operations
+        if (current.getFuelLevel() >= landing.size())
+        {
+            cout << "Adjusting position in queue to allow landing.\n";
+            landing.append(current); // append current plane to front of landing queue
+            while (!temp_queue.empty())
+            {
+                Plane temp_plane;
+                temp_queue.serve_and_retrieve(temp_plane);
+                landing.append(temp_plane); // add other planes back to landing queue
+            }
+            result = success;
+        }
+        else
+        {
+            // if landing queue is still too long, plane crashes
+            cout << "Could not allow plane to land as others would've crashed.\n";
+            result = fatal;
+        }
     }
     else
     {
-        result = fail;
+        if (landing.size() < queue_limit)
+        {
+            result = landing.append(current);
+        }
+        else
+        {
+            result = fail;
+        }
     }
     num_land_requests++;
 
     if (result != success)
     {
-        num_land_refused++;
+        result == fatal ? num_crashed++ : num_land_refused++;
     }
     else
     {
@@ -150,6 +195,8 @@ Post: Runway usage statistics are summarized and printed.
          << num_landings << endl
          << "Total number of planes that took off "
          << num_takeoffs << endl
+         << "Total number of planes that crashed "
+         << num_crashed << endl
          << "Total number of planes left in landing queue "
          << landing.size() << endl
          << "Total number of planes left in takeoff queue "
