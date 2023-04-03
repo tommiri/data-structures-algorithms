@@ -406,69 +406,63 @@ void main_4 ()
 
 void main_5 ()
 {
-    /*
-Pre:  The user must supply the number of time intervals the simulation is to
-      run, the expected number of planes arriving, the expected number
-      of planes departing per time interval, and the
-      maximum allowed size for runway queues.
-Post: The program performs a random simulation of the airport, showing
-      the status of the runway at each time interval, and prints out a
-      summary of airport operation at the conclusion.
-Uses: Classes Runway, Plane, Random and functions run_idle, initialize.
-*/
-    {
-        cout << "This program simulates an airport with only one runway." << endl
-             << "One plane can land or depart in each unit of time." << endl;
+    cout << "This program simulates an airport with only one runway.\n"
+            "One plane can land or depart in each unit of time.\n"
+            "If planes don't have enough fuel to wait in queue,\n"
+            "they will be moved to the front of the queue.\n"
+            "If planes run out of fuel, they will crash.\n";
 
-        int end_time;            //  time to run simulation
-        int queue_limit;         //  size of Runway queues
-        int flight_number = 0;
-        double arrival_rate, departure_rate;
-        double testing;
+    int end_time;            //  time to run simulation
+    int queue_limit;         //  size of Runway queues
+    int flight_number = 0;
+    double arrival_rate, departure_rate;
 
-        initialize(end_time, queue_limit, arrival_rate, departure_rate);
+    initialize(end_time, queue_limit, arrival_rate, departure_rate);
 
-        Random variable;
-        Runway small_airport(queue_limit);
+    Random variable;
+    Runway small_airport(queue_limit);
 
-        for (int current_time = 0; current_time < end_time; current_time++)
-        { //  loop over time intervals
-            int number_arrivals = variable.poisson(arrival_rate);  //  current arrival requests
-            for (int i = 0; i < number_arrivals; i++)
+    for (int current_time = 0; current_time < end_time; current_time++)
+    { //  loop over time intervals
+        int number_arrivals = variable.poisson(arrival_rate);  //  current arrival requests
+        for (int i = 0; i < number_arrivals; i++)
+        {
+            int fuel_level = variable.random_integer(0, 10);
+            Plane current_plane(flight_number++, current_time, arriving, fuel_level);
+            cout << "Fuel level: " << fuel_level << '\n';
+            Error_code result = small_airport.can_land(current_plane);
+            if (result != success)
             {
-                Plane current_plane(flight_number++, current_time, arriving);
-                if (small_airport.can_land(current_plane) != success)
-                {
-                    current_plane.refuse();
-                }
-            }
-
-            int number_departures = variable.poisson(departure_rate); //  current departure requests
-            for (int j = 0; j < number_departures; j++)
-            {
-                Plane current_plane(flight_number++, current_time, departing);
-                if (small_airport.can_depart(current_plane) != success)
-                {
-                    current_plane.refuse();
-                }
-            }
-
-            Plane moving_plane;
-            switch (small_airport.activity(current_time, moving_plane))
-            {
-                //  Let at most one Plane onto the Runway at current_time.
-                case land:
-                    moving_plane.land(current_time);
-                    break;
-                case takeoff:
-                    moving_plane.fly(current_time);
-                    break;
-                case idle:
-                    run_idle(current_time);
+                result == fatal ? current_plane.crash(current_time) : current_plane.refuse();
             }
         }
 
-        cout << "\nSMALL AIRPORT RUNWAY STATS\n"
-                "-----------------------------------------------\n";
-        small_airport.shut_down(end_time);
+        int number_departures = variable.poisson(departure_rate); //  current departure requests
+        for (int j = 0; j < number_departures; j++)
+        {
+            Plane current_plane(flight_number++, current_time, departing);
+            if (small_airport.can_depart(current_plane) != success)
+            {
+                current_plane.refuse();
+            }
+        }
+
+        Plane moving_plane;
+        switch (small_airport.activity(current_time, moving_plane))
+        {
+            //  Let at most one Plane onto the Runway at current_time.
+            case land:
+                moving_plane.land(current_time);
+                break;
+            case takeoff:
+                moving_plane.fly(current_time);
+                break;
+            case idle:
+                run_idle(current_time);
+        }
+    }
+
+    cout << "\nSMALL AIRPORT RUNWAY STATS\n"
+            "-----------------------------------------------\n";
+    small_airport.shut_down(end_time);
 }
