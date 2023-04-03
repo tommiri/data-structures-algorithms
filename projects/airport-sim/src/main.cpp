@@ -424,6 +424,7 @@ Uses: Classes Runway, Plane, Random and functions run_idle, initialize.
         int queue_limit;         //  size of Runway queues
         int flight_number = 0;
         double arrival_rate, departure_rate;
+        double testing;
 
         initialize(end_time, queue_limit, arrival_rate, departure_rate);
 
