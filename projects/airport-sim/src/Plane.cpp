@@ -4,17 +4,18 @@
 
 using std::cout, std::endl;
 
-Plane::Plane (int flt, int time, Plane_status status)
+Plane::Plane (int flt, int time, Plane_status status, int fuel)
 /*
-Post:  The Plane data members flt_num, clock_start,
-       and state are set to the values of the parameters flt,
-       time and status, respectively.
+Post:   The Plane data members flt_num, clock_start,
+        state and fuel level are set to the values
+        of the parameters flt, time, status, and fuel respectively.
 */
 
 {
     flt_num = flt;
     clock_start = time;
     state = status;
+    fuel_level = fuel;
     cout << "Plane number " << flt << " ready to ";
     if (status == arriving)
     {
@@ -30,12 +31,13 @@ Post:  The Plane data members flt_num, clock_start,
 Plane::Plane ()
 /*
 Post:  The Plane data members flt_num, clock_start,
-       state are set to illegal default values.
+       state and fuel_level are set to illegal default values.
 */
 {
     flt_num = -1;
     clock_start = -1;
     state = null;
+    fuel_level = -1;
 }
 
 
@@ -67,7 +69,7 @@ Post: Processes a Plane that is landing at the specified time.
     int wait = time - clock_start;
     cout << time << ": Plane number " << flt_num << " landed after "
          << wait << " time unit" << ((wait == 1) ? "" : "s")
-         << " in the takeoff queue." << endl;
+         << " in the landing queue." << endl;
 }
 
 
@@ -83,6 +85,10 @@ Post: Process a Plane that is taking off at the specified time.
          << " in the takeoff queue." << endl;
 }
 
+void Plane::crash (int time) const
+{
+    cout << time << ": Plane number " << flt_num << " crashed after running out of fuel!\n";
+}
 
 int Plane::started () const
 /*
