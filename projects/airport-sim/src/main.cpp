@@ -427,7 +427,7 @@ void main_5 ()
         int number_arrivals = variable.poisson(arrival_rate);  //  current arrival requests
         for (int i = 0; i < number_arrivals; i++)
         {
-            int fuel_level = variable.random_integer(0, 10);
+            int fuel_level = variable.random_integer(0, 50);
             Plane current_plane(flight_number++, current_time, arriving, fuel_level);
             cout << "Fuel level: " << fuel_level << '\n';
             Error_code result = small_airport.can_land(current_plane);
