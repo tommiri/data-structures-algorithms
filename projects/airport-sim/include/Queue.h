@@ -3,7 +3,7 @@
 #include "Plane.h"
 #include "Error_code.h"
 
-const int maxqueue = 10;
+const int maxqueue = 100;
 typedef Plane Queue_entry;
 
 class Queue

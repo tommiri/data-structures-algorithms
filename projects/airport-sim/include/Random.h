@@ -13,7 +13,7 @@ public:
     int poisson (double mean);
 
 private:
-    time_t reseed (); //  Re-randomize the seed.
-    time_t seed,
+    int reseed (); //  Re-randomize the seed.
+    int seed,
             multiplier, add_on; //  constants for use in arithmetic operations
 };

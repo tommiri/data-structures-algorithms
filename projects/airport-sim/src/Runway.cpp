@@ -25,7 +25,7 @@ Error_code Runway::can_land (const Plane &current)
 Post:  If possible, the Plane current is added to the
        landing Queue; otherwise, an Error_code of overflow is
        returned. The Runway statistics are updated.
-Uses:  class Extended_queue.
+Uses:  class Queue.
 */
 
 {
@@ -58,7 +58,7 @@ Error_code Runway::can_depart (const Plane &current)
 Post:  If possible, the Plane current is added to the
        takeoff Queue; otherwise, an Error_code of overflow is
        returned. The Runway statistics are updated.
-Uses:  class Extended_queue.
+Uses:  class Queue.
 */
 
 {
@@ -94,7 +94,7 @@ Post:  If the landing Queue has entries, its front
        Plane is copied to the parameter moving
        and a result  takeoff is returned. Otherwise,
        idle is returned. Runway statistics are updated.
-Uses:  class Extended_queue.
+Uses:  class Queue.
 */
 
 {

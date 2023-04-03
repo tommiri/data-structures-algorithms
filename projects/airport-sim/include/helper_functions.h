@@ -14,25 +14,22 @@ Pre:  The user specifies the number of time units in the simulation,
 Post: The program prints instructions and initializes the parameters
       end_time, queue_limit, arrival_rate, and departure_rate to
       the specified values.
-Uses: utility function user_says_yes
 */
 
 {
-    cout << "This program simulates an airport with only one runway." << endl
-         << "One plane can land or depart in each unit of time." << endl;
     cout << "Up to what number of planes can be waiting to land "
          << "or take off at any time? " << flush;
     cin >> queue_limit;
 
-    cout << "How many units of time will the simulation run?" << flush;
+    cout << "How many units of time will the simulation run? " << flush;
     cin >> end_time;
 
     bool acceptable;
     do
     {
-        cout << "Expected number of arrivals per unit time?" << flush;
+        cout << "Expected number of arrivals per unit time? " << flush;
         cin >> arrival_rate;
-        cout << "Expected number of departures per unit time?" << flush;
+        cout << "Expected number of departures per unit time? " << flush;
         cin >> departure_rate;
         if (arrival_rate < 0.0 || departure_rate < 0.0)
         {

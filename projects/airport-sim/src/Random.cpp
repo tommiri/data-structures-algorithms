@@ -1,11 +1,10 @@
 #include <climits>
-
-const int max_int = INT_MAX;
-
 #include <cmath>
 #include <ctime>
 
 #include "../include/Random.h"
+
+const int max_int = INT_MAX;
 
 Random::Random (bool pseudo)
 /*
@@ -82,7 +81,7 @@ with parameter mean, is returned.
     return count;
 }
 
-time_t Random::reseed ()
+int Random::reseed ()
 /*
 
 Post:
