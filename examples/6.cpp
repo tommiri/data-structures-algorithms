@@ -5,19 +5,19 @@
    Extracts from this file may be used in the construction of other programs,
    but this code will not compile or execute as given here. */
 
-
 // Section 6.2:
 
 template <class List_entry>
-class List{
+class List
+{
    //  Add in member information for the class.
 };
 
-
 template <class List_entry>
-class List {
+class List
+{
 public:
-//  methods of the List ADT
+   //  methods of the List ADT
    List();
    int size() const;
    bool full() const;
@@ -30,11 +30,10 @@ public:
    Error_code insert(int position, const List_entry &x);
 
 protected:
-//  data members for a contiguous list implementation
+   //  data members for a contiguous list implementation
    int count;
    List_entry entry[max_list];
 };
-
 
 template <class List_entry>
 int List<List_entry>::size() const
@@ -44,7 +43,6 @@ Post: The function returns the number of entries in the List.
 {
    return count;
 }
-
 
 template <class List_entry>
 Error_code List<List_entry>::insert(int position, const List_entry &x)
@@ -70,7 +68,6 @@ Post: If the List is not full and 0 <= position <= n,
    return success;
 }
 
-
 template <class List_entry>
 void List<List_entry>::traverse(void (*visit)(List_entry &))
 /*
@@ -82,35 +79,35 @@ Post: The action specified by function (*visit) has been performed on every
       (*visit)(entry[i]);
 }
 
-
 template <class Node_entry>
-struct Node {
-//  data members
+struct Node
+{
+   //  data members
    Node_entry entry;
    Node<Node_entry> *next;
-//  constructors
+   //  constructors
    Node();
    Node(Node_entry, Node<Node_entry> *link = NULL);
 };
 
-
 template <class List_entry>
-class List {
+class List
+{
 public:
-//  Specifications for the methods of the list ADT go here.
-//  The following methods replace compiler-generated defaults.
+   //  Specifications for the methods of the list ADT go here.
+   //  The following methods replace compiler-generated defaults.
    ~List();
    List(const List<List_entry> &copy);
-   void operator =(const List<List_entry> &copy);
+   void operator=(const List<List_entry> &copy);
+
 protected:
-//  Data members for the linked list implementation now follow.
+   //  Data members for the linked list implementation now follow.
    int count;
    Node<List_entry> *head;
 
-//  The following auxiliary function is used to locate list positions
+   //  The following auxiliary function is used to locate list positions
    Node<List_entry> *set_position(int position) const;
 };
-
 
 template <class List_entry>
 Node<List_entry> *List<List_entry>::set_position(int position) const
@@ -120,14 +117,13 @@ Post: Returns a pointer to the Node in position.
 */
 {
    Node<List_entry> *q = head;
-   for (int i = 0; i < position; i++) q = q->next;
+   for (int i = 0; i < position; i++)
+      q = q->next;
    return q;
 }
 
-
 new_node->next = following;
 previous->next = new_node;
-
 
 template <class List_entry>
 Error_code List<List_entry>::insert(int position, const List_entry &x)
@@ -142,11 +138,13 @@ Post: If the List is not full and 0 <= position <= n,
    if (position < 0 || position > count)
       return range_error;
    Node<List_entry> *new_node, *previous, *following;
-   if (position > 0) {
+   if (position > 0)
+   {
       previous = set_position(position - 1);
       following = previous->next;
    }
-   else following = head;
+   else
+      following = head;
    new_node = new Node<List_entry>(x, following);
    if (new_node == NULL)
       return overflow;
@@ -158,25 +156,24 @@ Post: If the List is not full and 0 <= position <= n,
    return success;
 }
 
-
 template <class List_entry>
-class List {
+class List
+{
 public:
-//  Add specifications for the methods of the list ADT.
-//  Add methods to replace the compiler-generated defaults.
+   //  Add specifications for the methods of the list ADT.
+   //  Add methods to replace the compiler-generated defaults.
 
 protected:
-//  Data members for the linked-list implementation with
-//  current position follow:
+   //  Data members for the linked-list implementation with
+   //  current position follow:
    int count;
    mutable int current_position;
    Node<List_entry> *head;
    mutable Node<List_entry> *current;
 
-//  Auxiliary function to locate list positions follows:
+   //  Auxiliary function to locate list positions follows:
    void set_position(int position) const;
 };
-
 
 template <class List_entry>
 void List<List_entry>::set_position(int position) const
@@ -185,43 +182,43 @@ Pre:  position is a valid position in the List: 0 <= position < count.
 Post: The current Node pointer references the Node at position.
 */
 {
-   if (position < current_position) {  //  must start over at head of list
+   if (position < current_position)
+   { //  must start over at head of list
       current_position = 0;
       current = head;
    }
-   for ( ; current_position != position; current_position++)
+   for (; current_position != position; current_position++)
       current = current->next;
 }
 
-
 template <class Node_entry>
-struct Node {
-//  data members
+struct Node
+{
+   //  data members
    Node_entry entry;
    Node<Node_entry> *next;
    Node<Node_entry> *back;
-//  constructors
+   //  constructors
    Node();
    Node(Node_entry, Node<Node_entry> *link_back = NULL,
-                    Node<Node_entry> *link_next = NULL);
+        Node<Node_entry> *link_next = NULL);
 };
 
-
 template <class List_entry>
-class List {
+class List
+{
 public:
-//  Add specifications for methods of the list ADT.
-//  Add methods to replace compiler generated defaults.
+   //  Add specifications for methods of the list ADT.
+   //  Add methods to replace compiler generated defaults.
 protected:
-//  Data members for the doubly-linked list implementation follow:
+   //  Data members for the doubly-linked list implementation follow:
    int count;
    mutable int current_position;
    mutable Node<List_entry> *current;
 
-//  The auxiliary function to locate list positions follows:
+   //  The auxiliary function to locate list positions follows:
    void set_position(int position) const;
 };
-
 
 template <class List_entry>
 void List<List_entry>::set_position(int position) const
@@ -231,13 +228,12 @@ Post: The current Node pointer references the Node at position.
 */
 {
    if (current_position <= position)
-      for ( ; current_position != position; current_position++)
+      for (; current_position != position; current_position++)
          current = current->next;
    else
-      for ( ; current_position != position; current_position--)
+      for (; current_position != position; current_position--)
          current = current->back;
 }
-
 
 template <class List_entry>
 Error_code List<List_entry>::insert(int position, const List_entry &x)
@@ -250,61 +246,66 @@ Post: If the List is not full and 0 <= position <= n,
 */
 {
    Node<List_entry> *new_node, *following, *preceding;
-   if (position < 0 || position > count) return range_error;
-   if (position == 0) {
-      if (count == 0) following = NULL;
-      else {
+   if (position < 0 || position > count)
+      return range_error;
+   if (position == 0)
+   {
+      if (count == 0)
+         following = NULL;
+      else
+      {
          set_position(0);
          following = current;
       }
       preceding = NULL;
    }
-   else {
+   else
+   {
       set_position(position - 1);
       preceding = current;
       following = preceding->next;
    }
    new_node = new Node<List_entry>(x, preceding, following);
 
-   if (new_node == NULL) return overflow;
-   if (preceding != NULL) preceding->next = new_node;
-   if (following != NULL) following->back = new_node;
+   if (new_node == NULL)
+      return overflow;
+   if (preceding != NULL)
+      preceding->next = new_node;
+   if (following != NULL)
+      following->back = new_node;
    current = new_node;
    current_position = position;
    count++;
    return success;
 }
 
-
-
-
 // Section 6.3:
 
-class String {
-public:                           //  methods of the string ADT
+class String
+{
+public: //  methods of the string ADT
    String();
    ~String();
-   String (const String &copy);   //  copy constructor
-   String (const char * copy);    //  conversion from C-string
-   String (List<char> &copy);     //  conversion from List
+   String(const String &copy); //  copy constructor
+   String(const char *copy);   //  conversion from C-string
+   String(List<char> &copy);   //  conversion from List
 
-   void operator =(const String &copy);
-   const char *c_str() const;     //  conversion to C-style string
+   void operator=(const String &copy);
+   const char *c_str() const; //  conversion to C-style string
 
 protected:
    char *entries;
    int length;
 };
 
-bool operator ==(const String &first, const String &second);
-bool operator   >(const String &first, const String &second);
-bool operator   <(const String &first, const String &second);
-bool operator >=(const String &first, const String &second);
-bool operator <=(const String &first, const String &second);
-bool operator !=(const String &first, const String &second);
+bool operator==(const String &first, const String &second);
+bool operator>(const String &first, const String &second);
+bool operator<(const String &first, const String &second);
+bool operator>=(const String &first, const String &second);
+bool operator<=(const String &first, const String &second);
+bool operator!=(const String &first, const String &second);
 
-
-String::String (const char *in_string)
+String::String(const char *in_string)
 /*
 Pre:  The pointer in_string references a C-string.
 Post: The String is initialized by the C-string in_string.
@@ -315,39 +316,35 @@ Post: The String is initialized by the C-string in_string.
    strcpy(entries, in_string);
 }
 
-
-String::String (List<char> &in_list)
+String::String(List<char> &in_list)
 /*
 Post: The String is initialized by the character List in_list.
 */
 {
    length = in_list.size();
    entries = new char[length + 1];
-   for (int i = 0; i < length; i++) in_list.retrieve(i,entries[i]);
+   for (int i = 0; i < length; i++)
+      in_list.retrieve(i, entries[i]);
    entries[length] = '\0';
 }
 
-
-const char*String::c_str() const
+const char *String::c_str() const
 /*
 Post: A pointer to a legal C-string object matching the String is returned.
 */
 {
-   return (const char *) entries;
+   return (const char *)entries;
 }
 
+String s = "abc";
+const char *new_string = s.c_str();
+s = "def";
+cout << new_string;
 
-   String s = "abc";
-   const char *new_string = s.c_str();
-   s = "def";
-   cout << new_string;
+String s = "Some very long string";
+cout << s.c_str(); //  creates garbage from a temporary C-string object
 
-
-   String s = "Some very long string";
-   cout << s.c_str();  //  creates garbage from a temporary C-string object
-
-
-bool operator ==(const String &first, const String &second)
+bool operator==(const String &first, const String &second)
 /*
 Post: Return true if the String first agrees with String second.
       Else: Return false.
@@ -356,11 +353,9 @@ Post: Return true if the String first agrees with String second.
    return strcmp(first.c_str(), second.c_str()) == 0;
 }
 
-
 String s = "some_string";
 cout << s.c_str() << endl;
 cout << strlen(s.c_str()) << endl;
-
 
 void strcat(String &add_to, const String &add_on)
 /*
@@ -373,9 +368,8 @@ Post: The function concatenates String add_on onto the end of String add_to.
    strcpy(copy, cfirst);
    strcat(copy, csecond);
    add_to = copy;
-   delete []copy;
+   delete[] copy;
 }
-
 
 String read_in(istream &input)
 /*
@@ -392,7 +386,6 @@ Post: Return a String read (as characters terminated
    return answer;
 }
 
-
 void write(String &s)
 /*
 Post: The String parameter s is written to cout.
@@ -400,8 +393,6 @@ Post: The String parameter s is written to cout.
 {
    cout << s.c_str() << endl;
 }
-
-
 
 // Section 6.4:
 
@@ -414,37 +405,41 @@ Post: Reads an input file that contains lines (character strings),
 Uses: methods of class Editor
 */
 {
-   if (argc != 3) {
+   if (argc != 3)
+   {
       cout << "Usage:\n\t edit  inputfile  outputfile" << endl;
-      exit (1);
+      exit(1);
    }
-   ifstream file_in(argv[1]);   //  Declare and open the input stream.
-   if (file_in == 0) {
+   ifstream file_in(argv[1]); //  Declare and open the input stream.
+   if (file_in == 0)
+   {
       cout << "Can't open input file " << argv[1] << endl;
-      exit (1);
+      exit(1);
    }
-   ofstream file_out(argv[2]);   //  Declare and open the output stream.
-   if (file_out == 0) {
+   ofstream file_out(argv[2]); //  Declare and open the output stream.
+   if (file_out == 0)
+   {
       cout << "Can't open output file " << argv[2] << endl;
-      exit (1);
+      exit(1);
    }
    Editor buffer(&file_in, &file_out);
    while (buffer.get_command())
       buffer.run_command();
 }
 
-
-class Editor:public List<String> {
+class Editor : public List<String>
+{
 public:
    Editor(ifstream *file_in, ofstream *file_out);
    bool get_command();
    void run_command();
+
 private:
    ifstream *infile;
    ofstream *outfile;
    char user_command;
 
-//  auxiliary functions
+   //  auxiliary functions
    Error_code next_line();
    Error_code previous_line();
    Error_code goto_line();
@@ -456,7 +451,6 @@ private:
    void find_string();
 };
 
-
 Editor::Editor(ifstream *file_in, ofstream *file_out)
 /*
 Post: Initialize the Editor members infile and outfile with the parameters.
@@ -465,7 +459,6 @@ Post: Initialize the Editor members infile and outfile with the parameters.
    infile = file_in;
    outfile = file_out;
 }
-
 
 bool Editor::get_command()
 /*
@@ -479,16 +472,15 @@ Uses: C library function tolower.
    else
       cout << "File is empty. \n??" << flush;
 
-   cin >> user_command;    //  ignores white space and gets command
+   cin >> user_command; //  ignores white space and gets command
    user_command = tolower(user_command);
    while (cin.get() != '\n')
-      ;                       //  ignore user's enter key
+      ; //  ignore user's enter key
    if (user_command == 'q')
       return false;
    else
       return true;
 }
-
 
 void Editor::run_command()
 /*
@@ -498,7 +490,8 @@ Uses: methods and auxiliary functions of the class Editor,
 */
 {
    String temp_string;
-   switch (user_command) {
+   switch (user_command)
+   {
    case 'b':
       if (empty())
          cout << " Warning: empty buffer " << endl;
@@ -587,11 +580,10 @@ Uses: methods and auxiliary functions of the class Editor,
          write_file();
       break;
 
-   default :
+   default:
       cout << "Press h or ? for help or enter a valid command: ";
    }
 }
-
 
 void Editor::read_file()
 /*
@@ -602,23 +594,28 @@ Uses: String and Editor methods and functions.
 */
 {
    bool proceed = true;
-   if (!empty()) {
+   if (!empty())
+   {
       cout << "Buffer is not empty; the read will destroy it." << endl;
       cout << " OK to proceed? " << endl;
-      if (proceed = user_says_yes()) clear();
+      if (proceed = user_says_yes())
+         clear();
    }
 
-  int line_number = 0, terminal_char;
-  while (proceed) {
+   int line_number = 0, terminal_char;
+   while (proceed)
+   {
       String in_string = read_in(*infile, terminal_char);
-      if (terminal_char == EOF) {
+      if (terminal_char == EOF)
+      {
          proceed = false;
-         if (strlen(in_string.c_str()) > 0) insert(line_number , in_string);
+         if (strlen(in_string.c_str()) > 0)
+            insert(line_number, in_string);
       }
-      else insert(line_number++, in_string);
+      else
+         insert(line_number++, in_string);
    }
 }
-
 
 Error_code Editor::insert_line()
 /*
@@ -628,13 +625,13 @@ Uses: String and Editor methods and functions.
 {
    int line_number;
    cout << " Insert what line number? " << flush;
-   cin  >> line_number;
-   while (cin.get() != '\n');
+   cin >> line_number;
+   while (cin.get() != '\n')
+      ;
    cout << " What is the new line to insert? " << flush;
    String to_insert = read_in(cin);
    return insert(line_number, to_insert);
 }
-
 
 void Editor::find_string()
 /*
@@ -650,9 +647,12 @@ Uses: String and Editor methods and functions.
    cout << "Enter string to search for:" << endl;
    String search_string = read_in(cin);
    while ((index = strstr(current->entry, search_string)) == -1)
-      if (next_line() != success) break;
-   if (index == -1) cout << "String was not found.";
-   else {
+      if (next_line() != success)
+         break;
+   if (index == -1)
+      cout << "String was not found.";
+   else
+   {
       cout << (current->entry).c_str() << endl;
       for (int i = 0; i < index; i++)
          cout << " ";
@@ -661,7 +661,6 @@ Uses: String and Editor methods and functions.
    }
    cout << endl;
 }
-
 
 Error_code Editor::change_line()
 /*
@@ -679,8 +678,10 @@ Uses: String and Editor methods and functions.
    String new_text = read_in(cin);
 
    int index = strstr(current->entry, old_text);
-   if (index == -1) result = fail;
-   else {
+   if (index == -1)
+      result = fail;
+   else
+   {
       String new_line;
       strncpy(new_line, current->entry, index);
       strcat(new_line, new_text);
@@ -691,26 +692,24 @@ Uses: String and Editor methods and functions.
    return result;
 }
 
-
-
 // Section 6.5:
 
 typedef int index;
 const int max_list = 7; //  small value for testing purposes
 
-
 template <class List_entry>
-class Node {
+class Node
+{
 public:
    List_entry entry;
    index next;
 };
 
-
 template <class List_entry>
-class List {
+class List
+{
 public:
-//  Methods of the list ADT
+   //  Methods of the list ADT
    List();
    int size() const;
    bool full() const;
@@ -723,18 +722,17 @@ public:
    Error_code insert(int position, const List_entry &x);
 
 protected:
-//  Data members
+   //  Data members
    Node<List_entry> workspace[max_list];
    index available, last_used, head;
    int count;
 
-//  Auxiliary member functions
+   //  Auxiliary member functions
    index new_node();
    void delete_node(index n);
    int current_position(index n) const;
    index set_position(int position) const;
 };
-
 
 template <class List_entry>
 index List<List_entry>::new_node()
@@ -746,16 +744,20 @@ Post: The index of the first available Node in workspace is returned;
 {
    index new_index;
 
-   if (available != -1) {
+   if (available != -1)
+   {
       new_index = available;
       available = workspace[available].next;
-   } else if (last_used < max_list - 1) {
+   }
+   else if (last_used < max_list - 1)
+   {
       new_index = ++last_used;
-   } else return -1;
+   }
+   else
+      return -1;
    workspace[new_index].next = -1;
    return new_index;
 }
-
 
 template <class List_entry>
 void List<List_entry>::delete_node(index old_index)
@@ -767,15 +769,16 @@ Post: The List index old_index is pushed onto the linked stack
 */
 {
    index previous;
-   if (old_index == head) head = workspace[old_index].next;
-   else {
+   if (old_index == head)
+      head = workspace[old_index].next;
+   else
+   {
       previous = set_position(current_position(old_index) - 1);
       workspace[previous].next = workspace[old_index].next;
    }
    workspace[old_index].next = available;
    available = old_index;
 }
-
 
 template <class List_entry>
 void List<List_entry>::traverse(void (*visit)(List_entry &))
@@ -787,7 +790,6 @@ Post: The action specified by function *visit has been performed on every
    for (index n = head; n != -1; n = workspace[n].next)
       (*visit)(workspace[n].entry);
 }
-
 
 template <class List_entry>
 Error_code List<List_entry>::insert(int position, const List_entry &x)
@@ -801,14 +803,18 @@ Post: If the List is not full and 0 <= position <= n,
 {
    index new_index, previous, following;
 
-   if (position < 0 || position > count) return range_error;
+   if (position < 0 || position > count)
+      return range_error;
 
-   if (position > 0) {
+   if (position > 0)
+   {
       previous = set_position(position - 1);
       following = workspace[previous].next;
    }
-   else following = head;
-   if ((new_index = new_node()) == -1) return overflow;
+   else
+      following = head;
+   if ((new_index = new_node()) == -1)
+      return overflow;
    workspace[new_index].entry = x;
    workspace[new_index].next = following;
    if (position == 0)
@@ -819,11 +825,9 @@ Post: If the List is not full and 0 <= position <= n,
    return success;
 }
 
-
-
 // Section 6.6:
 
-void permute(int k,int n)
+void permute(int k, int n)
 /*
 Pre:  1 through k - 1 are already in the permutation list;
 Post: inserts the integers from k through n into the permutation list
@@ -831,13 +835,14 @@ Post: inserts the integers from k through n into the permutation list
 {
    for //  each of the k possible positions in the list
    {
-       //  Insert k into the given position.
-       if (k == n) process_permutation;
-       else permute(k + 1, n);
-       //  Remove k from the given position.
+      //  Insert k into the given position.
+      if (k == n)
+         process_permutation;
+      else
+         permute(k + 1, n);
+      //  Remove k from the given position.
    }
 }
-
 
 void permute(int new_entry, int degree, List<int> &permutation)
 /*
@@ -848,7 +853,8 @@ Post: All permutations with degree entries, built from the given
 Uses: permute recursively, process_permutation, and List functions.
 */
 {
-   for (int current = 0; current < permutation.size() + 1; current++) {
+   for (int current = 0; current < permutation.size() + 1; current++)
+   {
       permutation.insert(current, new_entry);
       if (new_entry == degree)
          process_permutation(permutation);
@@ -857,7 +863,6 @@ Uses: permute recursively, process_permutation, and List functions.
       permutation.remove(current, new_entry);
    }
 }
-
 
 void permute(int new_entry, int degree, int *permutation)
 /*
@@ -869,7 +874,8 @@ Uses: Functions permute (recursively) and process_permutation.
 */
 {
    int current = 0;
-   do {
+   do
+   {
       permutation[new_entry] = permutation[current];
       permutation[current] = new_entry;
       if (new_entry == degree)
@@ -881,7 +887,6 @@ Uses: Functions permute (recursively) and process_permutation.
    } while (current != 0);
 }
 
-
 main()
 /*
 Pre:  The user specifies the degree of permutations to construct.
@@ -892,16 +897,16 @@ Post: All permutations of a user-supplied degree are printed to the terminal.
    int permutation[max_degree + 1];
 
    cout << "Number of elements to permute? ";
-   cin  >> degree;
+   cin >> degree;
 
    if (degree < 1 || degree > max_degree)
       cout << "Number must be between 1 and " << max_degree << endl;
-   else {
+   else
+   {
       permutation[0] = 0;
       permute(1, degree, permutation);
    }
 }
-
 
 void process_permutation(int *permutation)
 /*
@@ -910,7 +915,8 @@ Post: The permutation has been printed to the terminal.
 */
 {
    int current = 0;
-   while (permutation[current] != 0) {
+   while (permutation[current] != 0)
+   {
       cout << permutation[current] << " ";
       current = permutation[current];
    }
@@ -918,4 +924,3 @@ Post: The permutation has been printed to the terminal.
 }
 
 /*************************************************************************/
-
